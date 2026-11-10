@@ -1,0 +1,3 @@
+name,spec_default,spec_allowed,spec_ref,spec_behavior
+NUMBER_OF_IO,<from spec>,<e.g. 1..128>,<section / req id>,<what the spec says the param controls>
+PERIPHERAL_OUT_DEFAULT,<from spec>,any,<section / req id>,<value every unselected peripheral output must take in GPIO/ESS/test mode>

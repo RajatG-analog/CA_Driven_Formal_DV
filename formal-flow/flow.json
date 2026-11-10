@@ -1,0 +1,95 @@
+{
+  "rules_line": "Read and obey every .md file under $CHIPAGENTS_RULES_PATH (colon-separated) before doing anything else.",
+  "stages": [
+    {
+      "id": "spec_ingest",
+      "title": "Spec PDF to markdown",
+      "skill": null,
+      "installed_skill": "doc-convert",
+      "when": "spec_is_pdf",
+      "task": "Convert the spec PDF to markdown with the installed doc-convert skill. Keep tables, figures and section numbers. Write it to spec/<spec_stem>.md under the working directory.",
+      "outputs": ["spec/*.md"]
+    },
+    {
+      "id": "methodology",
+      "title": "Formal methodology selection",
+      "skill": "formal-methodology-select/SKILL.md",
+      "when": "always",
+      "task": "Run the skill Steps 1-5 and write the methodology report as DRAFT. Do not do Step 6 approval; the orchestrator asks the user.",
+      "outputs": ["**/*_formal_methodology.md"],
+      "gate": "approval"
+    },
+    {
+      "id": "connectivity",
+      "title": "Jasper Connectivity App",
+      "skill": "formal-connectivity/SKILL.md",
+      "when": "D-CONN",
+      "task": "Run the full skill for the features routed to D-CONN in the approved methodology report.",
+      "outputs": []
+    },
+    {
+      "id": "csr",
+      "title": "Jasper CSR App",
+      "skill": "formal-csr/SKILL.md",
+      "when": "D-CSR",
+      "task": "Run the full skill for the features routed to D-CSR in the approved methodology report.",
+      "outputs": []
+    },
+    {
+      "id": "fpv",
+      "title": "FPV (Path 1/2/3)",
+      "skill": "formal-fpv/SKILL.md",
+      "when": "D-FPV",
+      "task": "Run the full skill for the features routed to D-FPV1/D-FPV2/D-FPV3 in the approved methodology report. Gate 4b and the pitfall guard are blocking.",
+      "outputs": []
+    },
+    {
+      "id": "xprop",
+      "title": "X-propagation",
+      "skill": "formal-xprop/instructions.md",
+      "when": "D-XPROP",
+      "task": "Run the full skill for the features routed to D-XPROP in the approved methodology report.",
+      "outputs": []
+    },
+    {
+      "id": "manual_apps",
+      "title": "Manual apps (no skill yet)",
+      "skill": null,
+      "when": "MANUAL",
+      "task": null,
+      "outputs": []
+    },
+    {
+      "id": "cex_debug",
+      "title": "CEX debug / RCA",
+      "skill": "formal-cex-debug/SKILL.md",
+      "when": "ask_cex",
+      "task": "Debug every failing property (CEX) produced by the earlier stages. Classify each against the spec and write the RCA outputs.",
+      "outputs": []
+    },
+    {
+      "id": "traceability",
+      "title": "Sign-off traceability",
+      "skill": "formal-traceability/SKILL.md",
+      "when": "always",
+      "task": "Build the consolidated traceability across all app outputs of the earlier stages.",
+      "outputs": []
+    },
+    {
+      "id": "vplan",
+      "title": "Verification plan (vPlan)",
+      "skill": "formal-vplan/SKILL.md",
+      "when": "ask_vplan",
+      "task": "Create the vPlan from the spec, the methodology report and the traceability outputs.",
+      "outputs": []
+    },
+    {
+      "id": "param_audit",
+      "title": "Parameter spec audit (always last)",
+      "skill": "param-spec-audit/SKILL.md",
+      "when": "always",
+      "task": "Run the parameter spec audit for this IP.",
+      "outputs": []
+    }
+  ]
+}
